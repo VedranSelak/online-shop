@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Wrapper } from "./App.styles";
+import Item from "./components/Item/Item";
 
 export type ItemType = {
   id: number;
@@ -21,11 +22,21 @@ function App(): JSX.Element {
     setItems(data);
   };
 
+  const handleAddToCart = (item: ItemType) => {
+    return null;
+  };
+
   useEffect(() => {
     getItems();
   }, []);
 
-  return <div className="App">Store</div>;
+  return (
+    <div className="App">
+      {items.map((item) => (
+        <Item key={item.id} item={item} handleAddToCart={handleAddToCart} />
+      ))}
+    </div>
+  );
 }
 
 export default App;
