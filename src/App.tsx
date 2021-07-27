@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Wrapper, ButtonStyle } from "./App.styles";
 import Item from "./components/Item/Item";
+import Cart from "./components/Cart/Cart";
 import { Drawer, Grid, Badge } from "@material-ui/core";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
@@ -27,11 +28,15 @@ function App(): JSX.Element {
   };
 
   const handleAddToCart = (item: ItemType) => {
+    setCartItems([...cartItems, item]);
+  };
+
+  const handleRemoveFromCart = (id: number) => {
     return null;
   };
 
   const getTotalItems = (items: ItemType[]) => {
-    return null;
+    return items.reduce((num: number, item) => num + item.amount, 0);
   };
 
   useEffect(() => {
@@ -41,7 +46,7 @@ function App(): JSX.Element {
   return (
     <Wrapper>
       <Drawer anchor="right" open={myCartOpen} onClose={() => setMyCartOpen(false)}>
-        Cart
+        <Cart cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart} />
       </Drawer>
       <ButtonStyle onClick={() => setMyCartOpen(true)}>
         <Badge badgeContent={getTotalItems(cartItems)} color="primary">
