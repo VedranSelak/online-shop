@@ -40,7 +40,16 @@ function App(): JSX.Element {
   };
 
   const handleRemoveFromCart = (id: number) => {
-    return null;
+    setCartItems((prev) =>
+      prev.reduce((ack, item) => {
+        if (item.id === id) {
+          if (item.amount === 1) return ack;
+          return [...ack, { ...item, amount: item.amount - 1 }];
+        } else {
+          return [...ack, item];
+        }
+      }, [] as ItemType[])
+    );
   };
 
   const getTotalItems = (items: ItemType[]) => {
