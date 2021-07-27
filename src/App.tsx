@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Wrapper } from "./App.styles";
 import Item from "./components/Item/Item";
+import { Grid } from "@material-ui/core";
 
 export type ItemType = {
   id: number;
@@ -31,11 +32,15 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <div className="App">
-      {items.map((item) => (
-        <Item key={item.id} item={item} handleAddToCart={handleAddToCart} />
-      ))}
-    </div>
+    <Wrapper>
+      <Grid container spacing={3}>
+        {items.map((item) => (
+          <Grid item key={item.id} xs={12} sm={4}>
+            <Item key={item.id} item={item} handleAddToCart={handleAddToCart} />
+          </Grid>
+        ))}
+      </Grid>
+    </Wrapper>
   );
 }
 
