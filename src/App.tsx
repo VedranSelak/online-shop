@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Wrapper } from "./App.styles";
+import { Wrapper, ButtonStyle } from "./App.styles";
 import Item from "./components/Item/Item";
-import { Grid } from "@material-ui/core";
+import { Drawer, Grid, Badge } from "@material-ui/core";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 export type ItemType = {
   id: number;
@@ -15,6 +16,8 @@ export type ItemType = {
 
 function App(): JSX.Element {
   const [items, setItems] = useState<ItemType[]>([]);
+  const [myCartOpen, setMyCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<ItemType[]>([]);
 
   const getItems = async () => {
     const endpoint = `https://fakestoreapi.com/products`;
@@ -27,12 +30,24 @@ function App(): JSX.Element {
     return null;
   };
 
+  const getTotalItems = (items: ItemType[]) => {
+    return null;
+  };
+
   useEffect(() => {
     getItems();
   }, []);
 
   return (
     <Wrapper>
+      <Drawer anchor="right" open={myCartOpen} onClose={() => setMyCartOpen(false)}>
+        Cart
+      </Drawer>
+      <ButtonStyle onClick={() => setMyCartOpen(true)}>
+        <Badge badgeContent={getTotalItems(cartItems)} color="primary">
+          <AddShoppingCartIcon />
+        </Badge>
+      </ButtonStyle>
       <Grid container spacing={3}>
         {items.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
