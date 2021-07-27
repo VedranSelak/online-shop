@@ -27,8 +27,16 @@ function App(): JSX.Element {
     setItems(data);
   };
 
-  const handleAddToCart = (item: ItemType) => {
-    setCartItems([...cartItems, item]);
+  const handleAddToCart = (itemClicked: ItemType) => {
+    setCartItems((prev) => {
+      const IsItemInCart = prev.find((item) => item.id === itemClicked.id);
+
+      if (IsItemInCart) {
+        return prev.map((item) => (item.id === itemClicked.id ? { ...item, amount: item.amount + 1 } : item));
+      }
+
+      return [...prev, { ...itemClicked, amount: 1 }];
+    });
   };
 
   const handleRemoveFromCart = (id: number) => {
